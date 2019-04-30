@@ -93,8 +93,8 @@ class TelegramNotifier:
             1. /subscribe - To subscribe to sixes scored in IPL to avail 60% off swiggy coupon (SWIGGY6)
             2. /snooze - To snooze the notifications for sixes scored for the day.
             3. /removeSnooze - To resume the notifications for the day.
-            3. /unsubscribe - To unsubscribe to the sixes scored notifications.
-            4. /swiggyOffer - To know more about the ongoing swiggy offer.
+            4. /unsubscribe - To unsubscribe to the sixes scored notifications.
+            5. /swiggyOffer - To know more about the ongoing swiggy offer.
         """)
         self.bot.send_message(chat_id=update.message.chat_id, text=help_message, parse_mode='markdown')
 
@@ -132,11 +132,12 @@ class TelegramNotifier:
 
 
 if __name__ == "__main__":
-    telegram_bot_key = "870247212:AAHs5NQmhtQ7TgHYSAqJR5N96Aj1OAyF4gY"
+    telegram_bot_key = "your-token"
     tn = TelegramNotifier(telegram_bot_key)
     tn.main()
 
-# update.to_json() => format
+# Chat object format:
+# update.to_json() =>
 # {
 #    "update_id":107211934,
 #    "message":{
