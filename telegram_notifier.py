@@ -10,7 +10,7 @@ class TelegramNotifier:
         # Make sure to set use_context=True to use the new context based callbacks
         # Post version 12 this will no longer be necessary
         self.updater = Updater(auth_token, use_context=True)
-        self.q = mq.MessageQueue(all_burst_limit=3, all_time_limit_ms=3000)
+        self.q = mq.MessageQueue(all_burst_limit=30, all_time_limit_ms=1000)
         self.bot = MQBot(auth_token, mqueue=self.q)
 
     def notify(self):
