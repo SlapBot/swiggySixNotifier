@@ -53,7 +53,8 @@ class TelegramNotifier:
 
     def snooze(self, update, context):
         """Send a message when the command /start is issued."""
-        update.message.reply_text("You have successfully snoozed the notifications for the day.")
+        update.message.reply_text("You have successfully snoozed the notifications for the day. " 
+                                  "To resume notifications again, use /removeSnooze.")
         # update to the sqlite table.
         chat = update.message.chat
         self.db_manager.snooze(chat.id)
