@@ -3,6 +3,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from telegram.bot import Bot
 import textwrap
 from db_manager import DB_Manager
+from sqlite3 import IntegrityError
 
 
 class TelegramNotifier:
@@ -37,7 +38,13 @@ class TelegramNotifier:
         # add or update to the sqlite table.
         chat = update.message.chat
         user_tuple = self.db_manager.create_user_tuple(chat.id)
-        status = self.db_manager.add_new_user(user_tuple)
+        try:
+            status = self.db_manager.add_new_user(user_tuple)
+        except IntegrityError:
+            self.logger.info('Username: %s and chat_id: %s is already subscribed to the list.')
+            update.message.reply_text('You are already subscribed to real time notification for a six '
+                                      'scored in IPL 2019 cricket match.')
+            return True
         self.logger.info(
             'Username: %s and chat_id: %s subscribed to the list.' % (chat.username, chat.id)
         )

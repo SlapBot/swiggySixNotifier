@@ -35,10 +35,20 @@ class Scraper:
         return self.cricbuzz.commentary(match_id)['commentary']
 
     @staticmethod
-    def _new_six_scored(commentary, given_last_ball=None):
+    def _comm_after_new_innings(comms):
+        split_index = len(comms)
+        if len(comms) == 0:
+            return comms
+        for index, comm in enumerate(comms):
+            if "will open the attack" in comm['comm']:
+                split_index = index
+        return comms[:split_index]
+
+    def _new_six_scored(self, commentary, given_last_ball=None):
         last_ball_commentary = [comm for comm in commentary if 'over' in comm and comm['over'] is not None]
+        new_innings_comm = self._comm_after_new_innings(commentary)
         last_30_sixes = [
-            comm for comm in commentary
+            comm for comm in new_innings_comm
             if "<b>SIX</b>" in comm['comm']
         ]
         if len(last_ball_commentary) == 0:
